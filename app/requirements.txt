@@ -1,0 +1,6 @@
+pymysql
+flask
+flask_login
+flask_wtf
+sqlalchemy
+werkzeug
