@@ -3,16 +3,28 @@ package main
 import (
 	"broker/model"
 	"broker/routing"
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 )
 
-// global todo list we can access in '/todos'
-var todos []model.Todo
-
 func main() {
+	// parsing command line arguments
+	flag.String("host", "127.0.0.1", "Host address")
+	port := flag.Int("port", 8080, "Port")
+	flag.Bool("debug", false, "Enable debug mode")
 
-	router := routing.NewRouter()
+	flag.Parse()
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	// dummy todos
+	todos := []model.Todo{
+		{Name: "Code stuff"},
+		{Name: "Fix bugs"},
+		{Name: "Go shopping"},
+	}
+
+	router := routing.NewRouter(&todos)
+
+	log.Fatal(http.ListenAndServe(fmt.Sprint(":", *port), router))
 }
