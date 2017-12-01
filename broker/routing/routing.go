@@ -26,6 +26,7 @@ func NewRouter(listTodos *[]model.Todo) *mux.Router {
 		router.
 			Methods(route.Method).
 			Name(route.Name).
+			Path(route.Pattern).
 			Handler(route.HandlerFunc)
 	}
 
