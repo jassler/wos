@@ -15,11 +15,11 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
-var todos *[]model.Todo
+var users *[]model.User
 
 // NewRouter adds all items in the routes array to a mux Router
-func NewRouter(listTodos *[]model.Todo) *mux.Router {
-	todos = listTodos
+func NewRouter(userList *[]model.User) *mux.Router {
+	users = userList
 
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
@@ -43,13 +43,13 @@ var routes = []Route{
 	{
 		"TodoIndex",
 		"GET",
-		"/todos",
-		TodoIndex,
+		"/users",
+		UserIndex,
 	},
 	{
 		"TodoShow",
 		"GET",
-		"/todos/{todoId}",
-		TodoShow,
+		"/users/{userID}",
+		UserShow,
 	},
 }

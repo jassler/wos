@@ -4,37 +4,39 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 )
 
 // Index displays welcome message
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "There are ", len(*todos), " things to be done")
+	fmt.Fprint(w, "There are ", len(*users), " users")
 }
 
-// TodoIndex shows all todos from our todo array
-// '/todos'
-func TodoIndex(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(todos)
+// UserIndex shows all users in our database
+// '/users'
+func UserIndex(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(users)
 }
 
-// TodoShow only shows todo with specified id
-// eg. '/todos/1'
-func TodoShow(w http.ResponseWriter, r *http.Request) {
+// UserShow only shows todo with specified id
+// eg. '/users/1'
+func UserShow(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	todoID, err := strconv.Atoi(vars["todoId"])
+	userID, ok := vars["userID"]
 
-	if err != nil {
-		fmt.Fprintln(w, "Please provide a number from 0 to ", len(*todos)-1, " to show more")
+	if !ok {
+		fmt.Fprintln(w, "No valid ID provided!")
 		return
 	}
 
-	if todoID < 0 || todoID >= len(*todos) {
-		fmt.Fprintln(w, "Please provide a number from 0 to ", len(*todos)-1, " to show more")
-		return
+	for _, user := range *users {
+		if user.ID == userID {
+			// user found!
+			json.NewEncoder(w).Encode(user)
+			return
+		}
 	}
 
-	fmt.Fprintln(w, "Todo: ", (*todos)[todoID])
+	fmt.Fprintln(w, "{}")
 }

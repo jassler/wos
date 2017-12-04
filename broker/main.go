@@ -18,13 +18,13 @@ func main() {
 	flag.Parse()
 
 	// dummy todos
-	todos := []model.Todo{
-		{Name: "Code stuff"},
-		{Name: "Fix bugs"},
-		{Name: "Go shopping"},
+	users := []model.User{
+		{ID: "1", Firstname: "John", Lastname: "Doe", Address: &model.Address{City: "City X", State: "State X"}},
+		{ID: "2", Firstname: "Koko", Lastname: "Doe", Address: &model.Address{City: "City Z", State: "State Y"}},
+		{ID: "3", Firstname: "Francis", Lastname: "Sunday"},
 	}
 
-	router := routing.NewRouter(&todos)
+	router := routing.NewRouter(&users)
 
 	log.Fatal(http.ListenAndServe(fmt.Sprint(":", *port), router))
 }
